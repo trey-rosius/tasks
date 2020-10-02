@@ -1,10 +1,18 @@
 <template>
   <form
-    class="login-container"
+    class="main-form"
     @submit.prevent
     autocomplete="off"
     :class="{ 'form-group--error': $v.email.$error }"
   >
+    <input
+      type="text"
+      id="full_name"
+      class="main-form__full-names"
+      placeholder="Full names"
+      v-model:trim="$v.first_name.$model"
+    />
+
     <input
       type="text"
       id="email"
@@ -19,17 +27,31 @@
 
     <input
       type="password"
-      id="email"
+      id="password"
       class="password"
-      placeholder="password"
+      placeholder="Password"
       v-model="password"
     />
     <div class="error" v-if="!$v.password.required">
       Password field must be at least 6 characters long
     </div>
+    <input
+      type="password"
+      id="confirm_password"
+      class="password"
+      placeholder="Confirm Password"
+      v-model="password"
+    />
     <a href="" class="forgot_password"> forgot password ?</a>
 
     <input type="submit" class="login_btn" value="Log In" />
+    <div class="main-form__terms">
+      <input type="checkbox" id="checkbox" />
+      <label for="checkbox" class="main-form__terms--condition">
+        I have read and agree to the
+        <a href="#">Terms of service</a>
+      </label>
+    </div>
   </form>
 </template>
 
@@ -38,11 +60,22 @@ import { required, minLength, between } from "vuelidate/lib/validators";
 export default {
   data() {
     return {
+      first_name: "",
+      last_name: "",
       email: "",
       password: ""
     };
   },
   validations: {
+    first_name: {
+      required,
+      minLength: minLength(6)
+    },
+    last_name: {
+      required,
+      minLength: minLength(6)
+    },
+
     email: {
       required,
       minLength: minLength(6)
@@ -98,23 +131,10 @@ export default {
   border-bottom: 1px solid var(--input-color);
 }
 
-.title {
-  font-size: 2rem;
-  font-weight: bold;
-  font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, sans-serif;
-  text-align: center;
-}
 .forgot_password {
   margin-top: 1rem;
   font-size: 12px;
   align-self: flex-end;
-}
-.have-account {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: center;
-  font-size: 1.7rem;
 }
 
 .login_btn {
@@ -146,73 +166,26 @@ export default {
     position: relative;
   }
 
-  &__first-name {
-    height: 4rem;
-    outline: none;
-    border: 1px solid #eee;
-    border-radius: 1rem;
-    padding: 0 1rem;
-    font-family: "Montserrat";
-    transition: transform 0.3s;
-    &:focus {
-      transform: translateY(-1.5rem) scale(1.03);
-    }
-  }
+  &__full-names {
+    height: 40px;
 
-  &__last-name {
-    height: 4rem;
     margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    background-color: transparent;
+
     outline: none;
-    border: 1px solid #eee;
-    border-radius: 1rem;
-    padding: 0 1rem;
-    font-family: "Montserrat";
-    transition: transform 0.3s;
-    &:focus {
-      transform: translateY(-1.5rem) scale(1.03);
-    }
-  }
-  &__email {
-    height: 4rem;
-    margin-top: 1rem;
-    outline: none;
-    border: 1px solid #eee;
-    border-radius: 1rem;
-    padding: 0 1rem;
-    font-family: "Montserrat";
-    &:focus {
-      transform: translateY(-1.5rem) scale(1.03);
-    }
-  }
-  &__password {
-    height: 4rem;
-    margin-top: 1rem;
-    outline: none;
-    border: 1px solid #eee;
-    border-radius: 1rem;
-    padding: 0 1rem;
-    font-family: "Montserrat";
-    transition: transform 0.3s;
-    &:focus {
-      transform: translateY(-1.5rem) scale(1.03);
-    }
-  }
-  &__sign-up {
-    height: 4rem;
-    margin-top: 1.5rem;
-    font-size: 1.5rem;
     border: none;
-    background-color: var(--color-blue);
-    color: white;
-    font-family: "Montserrat";
-    border-radius: 1rem;
+    color: var(--input-color);
+
+    border-bottom: 1px solid var(--input-color);
   }
 
   &__terms {
     margin-top: 2rem;
 
     &--condition {
-      font-size: 1.4rem;
+      font-size: 1.2rem;
     }
   }
   &__forgot_password {

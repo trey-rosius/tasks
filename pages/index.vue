@@ -1,13 +1,15 @@
 <template>
   <div id="app">
-    <LoginRegister />
+    <div class="demo">
+      <Tabs />
+    </div>
   </div>
 </template>
 
 <script>
-import LoginRegister from "~/components/LoginRegister.vue";
+import Tabs from "@/components/Tabs.vue";
 export default {
-  components: { LoginRegister }
+  components: { Tabs }
 };
 </script>
 
